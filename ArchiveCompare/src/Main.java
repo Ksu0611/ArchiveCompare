@@ -9,6 +9,8 @@ public class Main {
         Scanner in = new Scanner(System.in);     //для консольного ввода
         Map<java.lang.Long, String> archive1 = new HashMap<java.lang.Long, String>(); //для хранения данных об архиве1
         Map<java.lang.Long, String> archive2 = new HashMap<java.lang.Long, String>(); //для хранения данных об архиве2
+
+        /*Получаем с консоли путь до двух архивов и до файла куда будем записывать результат*/
         System.out.println("Введите путь до старой zip папки");
         String path1 = in.nextLine();
         System.out.println("Введите путь до новой zip папки");
@@ -68,7 +70,7 @@ public class Main {
         }
     }
     /*считываем в map данные из архива*/
-    static void Read(Map<java.lang.Long, String> archive1, String path, String name1) {
+    static void Read(Map<java.lang.Long, String> archive, String path, String name1) {
         try(ZipInputStream zin = new ZipInputStream(new FileInputStream(path)))
         {
             ZipEntry entry;
@@ -79,9 +81,9 @@ public class Main {
             while((entry=zin.getNextEntry())!=null){
 
                 name = entry.getName();// получим название файла
-                size = entry.getSize();
-                String name_crop = name.substring(dirlength);
-                archive1.put(size, name_crop);
+                size = entry.getSize();//получим размер файла
+                String name_crop = name.substring(dirlength);//обрезаем имя файла до необходимого
+                archive.put(size, name_crop);
                 zin.closeEntry();
             }
         }
